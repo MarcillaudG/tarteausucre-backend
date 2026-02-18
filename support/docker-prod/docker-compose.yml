@@ -1,0 +1,13 @@
+services:
+  postgres:
+    container_name: tarteausucre-local-database
+    image: postgres:17.4-alpine3.21
+    ports:
+      - '5432:5432' # host:container — Postgres listens on 5432 inside the container
+    volumes:
+      - './postgres-share:/tmp/data'
+      - './postgres-data:/var/lib/postgresql/data'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tarteausucre-local-database
