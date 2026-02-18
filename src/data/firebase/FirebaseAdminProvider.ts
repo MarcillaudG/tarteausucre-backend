@@ -24,6 +24,7 @@ export class FirebaseAdminProvider implements INotificationSenderProvider {
   async sendNotification(p: PushNotification): Promise<void> {
     try {
       for (const deviceToken of p.deviceTokens) {
+        console.log('sending notification to device token', deviceToken)
         await this.firebase.messaging().send({
           notification: { body: p.body, title: p.title },
             token: deviceToken,
