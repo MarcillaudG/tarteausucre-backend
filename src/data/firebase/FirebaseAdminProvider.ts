@@ -3,6 +3,7 @@ import firebase from 'firebase-admin'
 import { config } from '../../config/configuration'
 import { NotificationType } from '../../domain/models/notifications/NotificationType'
 import { INotificationSenderProvider } from '../../domain/providers/notifications/INotificationSenderProvider'
+import { PushNotification } from '../../domain/models/notifications/PushNotification'
 
 @Injectable()
 export class FirebaseAdminProvider implements INotificationSenderProvider {
@@ -16,23 +17,19 @@ export class FirebaseAdminProvider implements INotificationSenderProvider {
           privateKey: (config().firebase.privateKey ?? '').replace(/\\n/g, '\n'),
           clientEmail: config().firebase.clientEmail
         })
-      },
-      'foreman'
+      }
     )
   }
 
-  async sendNotification(p: {
-    body: string
-    deviceToken: string
-    type: NotificationType
-    title?: string
-  }): Promise<void> {
+  async sendNotification(p: PushNotification): Promise<void> {
     try {
-      await this.firebase.messaging().send({
-        notification: { body: p.body, title: p.title },
-        token: p.deviceToken,
-        data: { type: p.type }
-      })
+      for (const deviceToken of p.deviceTokens) {
+        await this.firebase.messaging().send({
+          notification: { body: p.body, title: p.title },
+            token: deviceToken,
+            data: { type: p.type }
+          })
+        }
     } catch (e) {
       this.logger.error(e.message)
     }
