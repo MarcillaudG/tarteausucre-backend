@@ -6,6 +6,8 @@ export class PhaseDTO {
   sessionId: string
   name: PhaseName
   description: string
+  mikaPoints: number
+  catPoints: number
   createdAt: Date
   updatedAt: Date
 
@@ -14,6 +16,8 @@ export class PhaseDTO {
     this.sessionId = phase.sessionId
     this.name = phase.name
     this.description = phase.description
+    this.mikaPoints = phase.mikaPoints
+    this.catPoints = phase.catPoints
     this.createdAt = phase.createdAt
     this.updatedAt = phase.updatedAt
   }
@@ -24,6 +28,8 @@ export class PhaseDTO {
       sessionId: phase.sessionId,
       name: phase.name,
       description: phase.description,
+      mikaPoints: phase.mikaPoints,
+      catPoints: phase.catPoints,
       createdAt: phase.createdAt,
       updatedAt: phase.updatedAt
     }
