@@ -6,6 +6,7 @@ import { NotificationVM } from './entities/NotificationVM'
 import { SessionDTO } from './entities/SessionDTO'
 import { CreateSessionRequest } from './requests/CreateSessionRequest'
 import { SetPhasePointsRequest } from './requests/SetPhasePointsRequest'
+import { AddDeviceTokenRequest } from './requests/AddDeviceTokenRequest'
 
 @Controller('api/v1/sessions')
 export class SessionController {
@@ -20,6 +21,12 @@ export class SessionController {
       Session.sessionToCreateFactory({ deviceTokens: [createSessionRequest.deviceToken] })
     )
     return new SessionDTO(session)
+  }
+
+  @Post('add-device-token')
+  async addDeviceToken(@Body() addDeviceTokenRequest: AddDeviceTokenRequest): Promise<void> {
+    console.log('addDeviceTokenRequest', addDeviceTokenRequest.deviceToken)
+    await this.sessionService.addDeviceTokenToSession(addDeviceTokenRequest.deviceToken)
   }
 
   @Get('active')

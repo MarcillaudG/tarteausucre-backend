@@ -43,6 +43,14 @@ export class SessionService {
     return await this.sessionProvider.findOneByState(SessionState.ACTIVE)
   }
 
+  async addDeviceTokenToSession(deviceToken: string): Promise<void> {
+    const session = await this.getActiveSession()
+    if (session.deviceTokens.includes(deviceToken)) {
+      return
+    }
+    await this.sessionProvider.update(session.id, { deviceTokens: [...session.deviceTokens, deviceToken] })
+  }
+
   async setPhasePoints(p: { catPoints?: number; mikaPoints?: number }): Promise<void> {
     const session = await this.getActiveSession()
     const phase = session.currentPhase
