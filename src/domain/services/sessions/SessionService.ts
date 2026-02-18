@@ -56,6 +56,7 @@ export class SessionService {
     const phase = session.currentPhase
     console.log('phase id', phase.id)
     await this.phaseProvider.update(phase.id, { catPoints: p.catPoints, mikaPoints: p.mikaPoints })
+    console.log('sending points setup notification to device tokens', session.deviceTokens)
     await this.notificationSenderProvider.sendNotification(
       PushNotificationFactory.pointsSetupFactory({
         phaseName: phase.name,
