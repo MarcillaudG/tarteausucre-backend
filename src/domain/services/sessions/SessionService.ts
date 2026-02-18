@@ -53,7 +53,7 @@ export class SessionService {
 
   async setPhasePoints(p: { catPoints?: number; mikaPoints?: number }): Promise<void> {
     const session = await this.getActiveSession()
-    const phase = session.currentPhase
+    const phase = session.activePhase
     console.log('phase id', phase.id)
     await this.phaseProvider.update(phase.id, { catPoints: p.catPoints, mikaPoints: p.mikaPoints })
     await this.notificationSenderProvider.sendNotification(
@@ -68,7 +68,10 @@ export class SessionService {
 
   async startNextPhase(): Promise<void> {
     const session = await this.getActiveSession()
-    const phase = session.currentPhase
+    const phase = session.activePhase
+    console.log('starting next phase', phase.name)
+    console.log('next phase name', nextPhaseName(phase.name))
+    console.log('next phase description', PhaseNameWithDescription[nextPhaseName(phase.name)])
     const nextPhase = Phase.phaseToCreateFactory({
       sessionId: session.id,
       name: nextPhaseName(phase.name),

@@ -18,10 +18,6 @@ export class Session {
   createdAt: Date
   updatedAt: Date
 
-  get currentPhase(): Phase {
-    return this.phases.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())[0]
-  }
-
   constructor(s: SessionParams) {
     this.id = s.id
     this.currentPhaseName = s.currentPhaseName
