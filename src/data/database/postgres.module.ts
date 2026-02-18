@@ -8,6 +8,8 @@ import { DBPhase } from './phases/DBPhase'
 import { DBPhaseProvider } from './phases/DBPhaseProvider'
 import { DBSession } from './sessions/DBSession'
 import { DBSessionProvider } from './sessions/DBSessionProvider'
+import { InitMigration1771424371524 } from './migrations/1771424371524-initMigration'
+import { MigrationsProvider } from './migrations/MigrationsProvider'
 
 export const POSTGRES_ENTITIES = [DBSession, DBPhase, DBNotification]
 
@@ -24,14 +26,16 @@ export const POSTGRES_ENTITIES = [DBSession, DBPhase, DBNotification]
         username: config().db.username,
         password: config().db.password,
         database: config().db.name,
+        migrations: [InitMigration1771424371524],
         logging: false,
         entities: POSTGRES_ENTITIES,
-        synchronize: true
+        synchronize: false
       }),
       inject: [ConfigService]
     })
   ],
   providers: [
+    MigrationsProvider,
     {
       provide: 'ISessionProvider',
       useClass: DBSessionProvider
