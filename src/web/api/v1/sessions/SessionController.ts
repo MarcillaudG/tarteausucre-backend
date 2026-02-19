@@ -53,4 +53,11 @@ export class SessionController {
   ): Promise<NotificationVM[]> {
     return (await this.sessionService.getNotificationsForActiveSession()).map(NotificationVM.from)
   }
+
+  @Get('notifications/:notificationId')
+  async getNotificationById(
+    @Param('notificationId') notificationId: string
+  ): Promise<NotificationVM> {
+    return NotificationVM.from(await this.sessionService.getNotificationById(notificationId))
+  }
 }

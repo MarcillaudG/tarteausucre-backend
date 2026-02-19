@@ -104,4 +104,9 @@ export class SessionService {
     const session = await this.getActiveSession()
     return await this.notificationProvider.findAllBySessionId(session.id)
   }
+
+
+  async getNotificationById(notificationId: string): Promise<Notification> {
+    return await this.notificationProvider.findOneById(notificationId)
+  }
 }

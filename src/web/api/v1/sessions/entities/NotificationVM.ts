@@ -1,10 +1,11 @@
 import { Notification } from '../../../../../domain/models/notifications/Notification'
 import { NotificationType } from '../../../../../domain/models/notifications/NotificationType'
+import { PhaseDTO } from './PhaseDTO'
 
 export class NotificationVM {
   id: string
   sessionId: string
-  phaseId: string
+  phase: PhaseDTO
   type: NotificationType
   isRead: boolean
   createdAt: Date
@@ -13,7 +14,7 @@ export class NotificationVM {
   constructor(notification: Notification) {
     this.id = notification.id
     this.sessionId = notification.sessionId
-    this.phaseId = notification.phaseId
+    this.phase = new PhaseDTO(notification.phase)
     this.type = notification.type
     this.isRead = notification.isRead
     this.createdAt = notification.createdAt
