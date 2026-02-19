@@ -9,6 +9,8 @@ export class SessionDTO {
   state: SessionState
   phases: PhaseDTO[]
   activePhase: PhaseDTO
+  totalCatPoints: number
+  totalMikaPoints: number
   createdAt: Date
   updatedAt: Date
 
@@ -18,6 +20,8 @@ export class SessionDTO {
     this.state = session.state
     this.phases = session.phases
     this.activePhase = new PhaseDTO(session.activePhase)
+    this.totalCatPoints = session.totalCatPoints
+    this.totalMikaPoints = session.totalMikaPoints
     this.createdAt = session.createdAt
     this.updatedAt = session.updatedAt
   }
@@ -29,6 +33,8 @@ export class SessionDTO {
       state: session.state,
       phases: session.phases.map(PhaseDTO.from),
       activePhase: PhaseDTO.from(session.activePhase),
+      totalCatPoints: session.totalCatPoints,
+      totalMikaPoints: session.totalMikaPoints,
       createdAt: session.createdAt,
       updatedAt: session.updatedAt
     }

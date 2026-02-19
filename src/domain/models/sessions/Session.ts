@@ -14,6 +14,12 @@ export class Session {
     }
     return activePhase
   }
+  get totalCatPoints(): number {
+    return this.phases.reduce((acc, phase) => acc + phase.catPoints, 0)
+  }
+  get totalMikaPoints(): number {
+    return this.phases.reduce((acc, phase) => acc + phase.mikaPoints, 0)
+  }
   deviceTokens: string[]
   createdAt: Date
   updatedAt: Date
@@ -37,6 +43,6 @@ export class Session {
     }
   }
 }
-export type SessionParams = Omit<Session, 'currentPhase' | 'activePhase'>
-export type SessionToCreate = Omit<Session, 'id' | 'currentPhase' | 'phases' | 'activePhase'>
+export type SessionParams = Omit<Session, 'currentPhase' | 'activePhase' | 'totalCatPoints' | 'totalMikaPoints'>
+export type SessionToCreate = Omit<Session, 'id' | 'currentPhase' | 'phases' | 'activePhase' | 'totalCatPoints' | 'totalMikaPoints'>
 export type SessionToUpdate = Pick<Session, 'currentPhaseName' | 'state' | 'deviceTokens'>
