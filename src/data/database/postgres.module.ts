@@ -10,6 +10,7 @@ import { DBSession } from './sessions/DBSession'
 import { DBSessionProvider } from './sessions/DBSessionProvider'
 import { InitMigration1771424371524 } from './migrations/1771424371524-initMigration'
 import { MigrationsProvider } from './migrations/MigrationsProvider'
+import { NotifPointsMigration1771424378541 } from './migrations/1771424378541-notif-points'
 
 export const POSTGRES_ENTITIES = [DBSession, DBPhase, DBNotification]
 
@@ -26,7 +27,7 @@ export const POSTGRES_ENTITIES = [DBSession, DBPhase, DBNotification]
         username: config().db.username,
         password: config().db.password,
         database: config().db.name,
-        migrations: [InitMigration1771424371524],
+        migrations: [InitMigration1771424371524, NotifPointsMigration1771424378541],
         logging: false,
         entities: POSTGRES_ENTITIES,
         synchronize: false

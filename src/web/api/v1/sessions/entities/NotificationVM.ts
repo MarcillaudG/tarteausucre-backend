@@ -8,6 +8,8 @@ export class NotificationVM {
   phase: PhaseDTO
   type: NotificationType
   isRead: boolean
+  catPoints?: number
+  mikaPoints?: number
   createdAt: Date
   updatedAt: Date
 
@@ -17,6 +19,8 @@ export class NotificationVM {
     this.phase = new PhaseDTO(notification.phase)
     this.type = notification.type
     this.isRead = notification.isRead
+    this.catPoints = notification.catPoints
+    this.mikaPoints = notification.mikaPoints
     this.createdAt = notification.createdAt
     this.updatedAt = notification.updatedAt
   }

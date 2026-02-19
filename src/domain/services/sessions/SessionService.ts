@@ -61,7 +61,9 @@ export class SessionService {
       sessionId: session.id,
       phaseId: phase.id,
       type: NotificationType.POINTS_SETUP,
-      isRead: false
+      isRead: false,
+      catPoints: p.catPoints,
+      mikaPoints: p.mikaPoints
     }))
     await this.notificationSenderProvider.sendNotification(
       PushNotificationFactory.pointsSetupFactory({

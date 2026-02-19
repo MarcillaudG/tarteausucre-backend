@@ -28,6 +28,12 @@ export class DBNotification {
   @Column({ type: 'boolean' })
   isRead: boolean
 
+  @Column({ type: 'int', nullable: true })
+  catPoints?: number
+
+  @Column({ type: 'int', nullable: true })
+  mikaPoints?: number
+
   @Column({ type: 'timestamp' })
   createdAt: Date
 
@@ -41,6 +47,8 @@ export class DBNotification {
       phase: dbnotification.phase,
       type: dbnotification.type,
       isRead: dbnotification.isRead,
+      catPoints: dbnotification.catPoints,
+      mikaPoints: dbnotification.mikaPoints,
       createdAt: dbnotification.createdAt,
       updatedAt: dbnotification.updatedAt
     })
@@ -52,6 +60,8 @@ export class DBNotification {
       phaseId: notification.phaseId,
       type: notification.type,
       isRead: notification.isRead,
+      catPoints: notification.catPoints,
+      mikaPoints: notification.mikaPoints,
       createdAt: notification.createdAt,
       updatedAt: notification.updatedAt
     }
