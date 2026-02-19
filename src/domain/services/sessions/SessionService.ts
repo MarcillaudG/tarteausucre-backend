@@ -89,15 +89,6 @@ export class SessionService {
     })
    const newPhase = await this.phaseProvider.create(nextPhase)
     await this.sessionProvider.update(session.id, { currentPhaseName: nextPhase.name })
-    const notification = await this.notificationProvider.create(Notification.notificationToCreateFactory({
-      sessionId: session.id,
-      phaseId: newPhase.id,
-      type: NotificationType.NEW_PHASE_STARTED,
-      isRead: false
-    }))
-    await this.notificationSenderProvider.sendNotification(
-      PushNotificationFactory.newPhaseStartedFactory({ phaseName: nextPhase.name, deviceTokens: session.deviceTokens })
-    )
   }
 
   async getNotificationsForActiveSession(): Promise<Notification[]> {
