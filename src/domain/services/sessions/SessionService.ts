@@ -66,7 +66,6 @@ export class SessionService {
       type: NotificationType.POINTS_SETUP,
       isRead: false
     }))
-    await this.notificationProvider.create(notification)
     await this.notificationSenderProvider.sendNotification(
       PushNotificationFactory.pointsSetupFactory({
         phaseName: phase.name,

@@ -1,9 +1,10 @@
+import { Phase } from '../phases/Phase'
 import { NotificationType } from './NotificationType'
 
 export class Notification {
   readonly id: string
   readonly sessionId: string
-  readonly phaseId: string
+  readonly phase: Phase
   readonly type: NotificationType
   readonly isRead: boolean
   readonly createdAt: Date
@@ -12,7 +13,7 @@ export class Notification {
   constructor(n: NotificationParams) {
     this.id = n.id
     this.sessionId = n.sessionId
-    this.phaseId = n.phaseId
+    this.phase = n.phase
     this.type = n.type
     this.isRead = n.isRead
     this.createdAt = n.createdAt
@@ -31,6 +32,6 @@ export class Notification {
 }
 
 export type NotificationParams = Notification
-export type NotificationToCreate = Omit<Notification, 'id'>
+export type NotificationToCreate = Omit<Notification, 'id' | 'phase'> & { phaseId: string }
 export type NotificationToCreateParams = Omit<NotificationToCreate, 'createdAt' | 'updatedAt'>
 export type NotificationToUpdate = Pick<Notification, 'isRead'>

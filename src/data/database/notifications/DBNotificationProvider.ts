@@ -26,13 +26,18 @@ export class DBNotificationProvider implements INotificationProvider {
 
   async findAllBySessionId(sessionId: string): Promise<Notification[]> {
     const notifications = await this.notificationRepository.find({
-      where: { sessionId: sessionId }
+      where: { sessionId: sessionId },
+      relations: {
+        phase: true
+      }
     })
     return notifications.map((notification) => DBNotification.toNotification(notification))
   }
 
   async findOneById(id: string): Promise<Notification> {
-    const notification = await this.notificationRepository.findOne({ where: { id: id } })
+    const notification = await this.notificationRepository.findOne({ where: { id: id }, relations:{
+      phase: true
+    } })
     if (!notification) {
       throw new NotFoundException('Notification not found')
     }

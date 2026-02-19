@@ -1,10 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn, ManyToOne } from 'typeorm'
 import {
   Notification,
   NotificationToCreate,
   NotificationToUpdate
 } from '../../../domain/models/notifications/Notification'
 import { NotificationType } from '../../../domain/models/notifications/NotificationType'
+import { DBPhase } from '../phases/DBPhase'
 
 @Entity('Notification')
 export class DBNotification {
@@ -16,6 +17,10 @@ export class DBNotification {
 
   @Column({ type: 'uuid' })
   phaseId: string
+
+  @ManyToOne(() => DBPhase)
+  @JoinColumn({ name: 'phaseId' })
+  phase: DBPhase
 
   @Column({ type: 'varchar' })
   type: NotificationType
@@ -33,7 +38,7 @@ export class DBNotification {
     return new Notification({
       id: dbnotification.id,
       sessionId: dbnotification.sessionId,
-      phaseId: dbnotification.phaseId,
+      phase: dbnotification.phase,
       type: dbnotification.type,
       isRead: dbnotification.isRead,
       createdAt: dbnotification.createdAt,
@@ -62,5 +67,5 @@ export class DBNotification {
   }
 }
 
-export type DBNotificationToCreate = Omit<DBNotification, 'id'>
+export type DBNotificationToCreate = Omit<DBNotification, 'id' |'phase'>
 export type DBNotificationToUpdate = Pick<DBNotification, 'isRead' | 'updatedAt'>
