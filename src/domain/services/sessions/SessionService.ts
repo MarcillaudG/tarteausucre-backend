@@ -7,12 +7,15 @@ import { SessionState } from '../../models/sessions/SessionState'
 import { INotificationSenderProvider } from '../../providers/notifications/INotificationSenderProvider'
 import { IPhaseProvider } from '../../providers/phases/IPhaseProvider'
 import { ISessionProvider } from '../../providers/sessions/ISessionProvider'
+import { Notification } from '../../models/notifications/Notification'
+import { INotificationProvider } from '../../providers/notifications/INotificationProvider'
 
 @Injectable()
 export class SessionService {
   constructor(
     @Inject('ISessionProvider') private readonly sessionProvider: ISessionProvider,
     @Inject('IPhaseProvider') private readonly phaseProvider: IPhaseProvider,
+    @Inject('INotificationProvider') private readonly notificationProvider: INotificationProvider,
     @Inject('INotificationSenderProvider')
     private readonly notificationSenderProvider: INotificationSenderProvider
   ) {}
@@ -82,5 +85,10 @@ export class SessionService {
     await this.notificationSenderProvider.sendNotification(
       PushNotificationFactory.newPhaseStartedFactory({ phaseName: nextPhase.name, deviceTokens: session.deviceTokens })
     )
+  }
+
+  async getNotificationsForActiveSession(): Promise<Notification[]> {
+    const session = await this.getActiveSession()
+    return await this.notificationProvider.findAllBySessionId(session.id)
   }
 }

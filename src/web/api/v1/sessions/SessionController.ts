@@ -48,10 +48,9 @@ export class SessionController {
     await this.sessionService.startNextPhase()
   }
 
-  @Get(':sessionId/notifications')
-  async getNotificationsBySessionId(
-    @Param('sessionId') sessionId: string
+  @Get('notifications')
+  async getNotificationsForActiveSession(
   ): Promise<NotificationVM[]> {
-    return (await this.notificationService.getAllBySessionId(sessionId)).map(NotificationVM.from)
+    return (await this.sessionService.getNotificationsForActiveSession()).map(NotificationVM.from)
   }
 }
