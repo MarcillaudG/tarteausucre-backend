@@ -9,6 +9,7 @@ import { IPhaseProvider } from '../../providers/phases/IPhaseProvider'
 import { ISessionProvider } from '../../providers/sessions/ISessionProvider'
 import { Notification } from '../../models/notifications/Notification'
 import { INotificationProvider } from '../../providers/notifications/INotificationProvider'
+import { NotificationType } from '../../models/notifications/NotificationType'
 
 @Injectable()
 export class SessionService {
@@ -59,6 +60,13 @@ export class SessionService {
     const phase = session.activePhase
     console.log('phase id', phase.id)
     await this.phaseProvider.update(phase.id, { catPoints: p.catPoints, mikaPoints: p.mikaPoints })
+    const notification = await this.notificationProvider.create(Notification.notificationToCreateFactory({
+      sessionId: session.id,
+      phaseId: phase.id,
+      type: NotificationType.POINTS_SETUP,
+      isRead: false
+    }))
+    await this.notificationProvider.create(notification)
     await this.notificationSenderProvider.sendNotification(
       PushNotificationFactory.pointsSetupFactory({
         phaseName: phase.name,
@@ -80,8 +88,14 @@ export class SessionService {
       name: nextPhaseName(phase.name),
       description: PhaseNameWithDescription[nextPhaseName(phase.name)]
     })
-    await this.phaseProvider.create(nextPhase)
+   const newPhase = await this.phaseProvider.create(nextPhase)
     await this.sessionProvider.update(session.id, { currentPhaseName: nextPhase.name })
+    const notification = await this.notificationProvider.create(Notification.notificationToCreateFactory({
+      sessionId: session.id,
+      phaseId: newPhase.id,
+      type: NotificationType.NEW_PHASE_STARTED,
+      isRead: false
+    }))
     await this.notificationSenderProvider.sendNotification(
       PushNotificationFactory.newPhaseStartedFactory({ phaseName: nextPhase.name, deviceTokens: session.deviceTokens })
     )
