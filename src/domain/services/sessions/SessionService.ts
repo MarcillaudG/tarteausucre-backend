@@ -74,6 +74,7 @@ export class SessionService {
         notificationId: notification.id
       })
     )
+    this.startNextPhase()
   }
 
   async startNextPhase(): Promise<void> {
