@@ -37,9 +37,6 @@ export class SessionService {
         description: PhaseNameWithDescription[PhaseName.INTRODUCTION]
       })
     )
-    await this.notificationSenderProvider.sendNotification(
-      PushNotificationFactory.newSessionStartedFactory(session.deviceTokens)
-    )
     return await this.sessionProvider.findOneById(session.id)
   }
 
@@ -71,7 +68,8 @@ export class SessionService {
         phaseName: phase.name,
         catPoints: p.catPoints ?? 0,
         mikaPoints: p.mikaPoints ?? 0,
-        deviceTokens: session.deviceTokens
+        deviceTokens: session.deviceTokens,
+        notificationId: notification.id
       })
     )
   }

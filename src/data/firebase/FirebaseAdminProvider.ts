@@ -28,7 +28,7 @@ export class FirebaseAdminProvider implements INotificationSenderProvider {
         await this.firebase.messaging().send({
           notification: { body: p.body, title: p.title },
             token: deviceToken,
-            data: { type: p.type }
+            data: { type: p.type, notificationId: p.notificationId }
           })
         }
     } catch (e) {
