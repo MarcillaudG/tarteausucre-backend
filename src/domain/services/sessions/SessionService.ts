@@ -74,15 +74,12 @@ export class SessionService {
         notificationId: notification.id
       })
     )
-    this.startNextPhase()
+    this.startNextPhase(false)
   }
 
-  async startNextPhase(): Promise<void> {
+  async startNextPhase(fromAdmin: boolean): Promise<void> {
     const session = await this.getActiveSession()
     const phase = session.activePhase
-    console.log('starting next phase', phase.name)
-    console.log('next phase name', nextPhaseName(phase.name))
-    console.log('next phase description', PhaseNameWithDescription[nextPhaseName(phase.name)])
     const nextPhase = Phase.phaseToCreateFactory({
       sessionId: session.id,
       name: nextPhaseName(phase.name),
@@ -90,6 +87,21 @@ export class SessionService {
     })
    const newPhase = await this.phaseProvider.create(nextPhase)
     await this.sessionProvider.update(session.id, { currentPhaseName: nextPhase.name })
+    if (fromAdmin) {
+    const notification = await this.notificationProvider.create(Notification.notificationToCreateFactory({
+      sessionId: session.id,
+      phaseId: newPhase.id,
+      type: NotificationType.NEW_PHASE_STARTED,
+      isRead: false
+    })) 
+      await this.notificationSenderProvider.sendNotification(
+        PushNotificationFactory.newPhaseStartedFactory({
+          phaseName: nextPhase.name,
+          deviceTokens: session.deviceTokens,
+          notificationId: notification.id
+        })
+      )
+    }
   }
 
   async getNotificationsForActiveSession(): Promise<Notification[]> {

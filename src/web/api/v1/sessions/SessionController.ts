@@ -45,7 +45,7 @@ export class SessionController {
 
   @Post('start-next-phase')
   async startNextPhase(): Promise<void> {
-    await this.sessionService.startNextPhase()
+    await this.sessionService.startNextPhase(true)
   }
 
   @Get('notifications')
